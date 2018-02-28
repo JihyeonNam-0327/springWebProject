@@ -8,81 +8,85 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href='<c:url value="/resources/bootstrap/css/bootstrap.min.css" />' rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<title>게시글 보기</title>
 <script>
-    $(document).ready(function(){
-    	var reno;
-    	
-        //listReply(); // **댓글 목록 불러오기
-        listReply2(); // ** json 리턴방식
-        
-        // ** 댓글 쓰기 버튼 클릭 이벤트 (ajax로 처리)
-        $("#btnReply").click(function(){
-        	//댓글 내용과 댓글 글쓴이 변수로 받은 뒤, 내용이 없다면 return 처리
-            var replytext=$("#replytext").val();
-            if(replytext == ""){
-            	alert("댓글 내용을 입력하세요");
-                return;
-            }
-            var replyer=$("#replyer").val();
-            if(replyer == ""){
-            	alert("이름을 입력하세요");
-                return;
-            }
-            //댓글 내용과 댓글 글쓴이 내용 초기화
-            $("#replytext").val("");
-            $("#replyer").val("");
-            var bno="${dto.id}"
-            var param="replytext="+replytext+"&id="+bno+"&replyer="+replyer;
-            $.ajax({
-                type: "post",
-                url: "${path}/app/board/reply/insert.do",
-                data: param,
-                success: function(){
-                    alert("댓글이 등록되었습니다.");
-                    listReply2();
-                }
-            });
-        });
-    	        
-        //게시글 삭제
-        $("#btnDelete").click(function(){
-            if(confirm("삭제하시겠습니까?")){
-                document.form1.action = "${path}/app/board/gongji_delete.do";
-                document.form1.submit();
+$(document).ready(function(){
+	var reno;
+	
+    //listReply(); // **댓글 목록 불러오기
+    listReply2(); // ** json 리턴방식
+    
+    // ** 댓글 쓰기 버튼 클릭 이벤트 (ajax로 처리)
+    $("#btnReply").click(function(){
+    	//댓글 내용과 댓글 글쓴이 변수로 받은 뒤, 내용이 없다면 return 처리
+        var replytext=$("#replytext").val();
+        if(replytext == ""){
+        	alert("댓글 내용을 입력하세요");
+            return;
+        }
+        var replyer=$("#replyer").val();
+        if(replyer == ""){
+        	alert("이름을 입력하세요");
+            return;
+        }
+        //댓글 내용과 댓글 글쓴이 내용 초기화
+        $("#replytext").val("");
+        $("#replyer").val("");
+        var bno="${dto.id}"
+        var param="replytext="+replytext+"&id="+bno+"&replyer="+replyer;
+        $.ajax({
+            type: "post",
+            url: "${path}/app/board/reply/insert.do",
+            data: param,
+            success: function(){
+                alert("댓글이 등록되었습니다.");
+                listReply2();
             }
         });
-        
-        //게시글 수정
-        $("#btnUpdete").click(function(){
-            //var title = document.form1.title.value; ==> name속성으로 처리할 경우
-            //var content = document.form1.content.value;
-            //아래는 id속성으로 처리한 경우
-            var title = $("#title").val();
-            var content = $("#content").val();
-            if(title == ""){
-                alert("제목을 입력하세요");
-                document.form1.title.focus();
-                return;
-            }
-            if(content == ""){
-                alert("내용을 입력하세요");
-                document.form1.content.focus();
-                return;
-            }
-            
-            document.form1.action="${path}/app/board/gongji_update.do"
-            // 폼에 입력한 데이터를 서버로 전송
+    });
+	        
+    //게시글 삭제
+    $("#btnDelete").click(function(){
+        if(confirm("삭제하시겠습니까?")){
+            document.form1.action = "${path}/app/board/gongji_delete.do";
             document.form1.submit();
-        });
-        
-        //목록으로 돌아가기
-        $("#btnBack").click(function(){
-        	location.href = "${path}/app/board/gongji_list.do?curPage="+${curPage};
-        });
-
+        }
     });
     
+    //게시글 수정
+    $("#btnUpdete").click(function(){
+        //var title = document.form1.title.value; ==> name속성으로 처리할 경우
+        //var content = document.form1.content.value;
+        //아래는 id속성으로 처리한 경우
+        var title = $("#title").val();
+        var content = $("#content").val();
+        if(title == ""){
+            alert("제목을 입력하세요");
+            document.form1.title.focus();
+            return;
+        }
+        if(content == ""){
+            alert("내용을 입력하세요");
+            document.form1.content.focus();
+            return;
+        }
+        
+        document.form1.action="${path}/app/board/gongji_update.do"
+        // 폼에 입력한 데이터를 서버로 전송
+        document.form1.submit();
+    });
+    
+/*	    //목록으로 돌아가기
+    $("#btnBack").click(function(){
+    	location.href = "${path}/app/board/gongji_list.do?curPage=${curPage}";
+    });*/
+
+});
+
+//새로 작성한 부분임
+function backToList(curPage){
+	location.href = "${path}/app/board/gongji_list.do?curPage="+curPage;
+}
+
 // Controller방식
 // **댓글 목록1
 function listReply(){
@@ -95,6 +99,7 @@ function listReply(){
         }
     });
 }
+
 // RestController방식 (Json)
 // **댓글 목록2 (json)
 function listReply2(){
@@ -171,7 +176,9 @@ function replyCancle(rno){
 	return; */
 	listReply2()
 }
+
 </script>
+<title>게시글 보기</title>
 </head>
 <body>
 <h2 align=center>게시글 보기</h2>
@@ -196,7 +203,7 @@ function replyCancle(rno){
         <input type="hidden" name="id" value="${dto.id}">
         <button class="btn btn-default pull-right" type="button" id="btnUpdete">수정</button>
         <button class="btn btn-default pull-right" type="button" id="btnDelete">삭제</button>
-		<button class="btn btn-default pull-right" type="button" id="btnBack">목록으로</button>
+		<button class="btn btn-default pull-right" type="button" id="btnBack" onclick="backToList(${curPage})">목록으로</button>
     </td>
     </tr>
     </table>
@@ -212,6 +219,6 @@ function replyCancle(rno){
     <button class="btn btn-default pull-right" type="button" id="btnReply">댓글 작성</button>
     <br><br>
 
-    
+<!-- <script src='<c:url value="/resources/jquery/replyScript.js" />'></script> -->
 </body>
 </html>

@@ -28,7 +28,7 @@ public class MemberServiceImpl implements MemberService {
         // *공백문자 처리
         title = title.replace("  ", "&nbsp;&nbsp;");
         // *줄바꿈 문자처리
-        content = content.replace("\n", "<br>");
+        //content = content.replace("\n", "<br>");
         vo.setTitle(title);
         vo.setContent(content);
         dao.create(vo);
