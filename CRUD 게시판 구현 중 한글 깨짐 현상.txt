@@ -1,0 +1,10 @@
+1. ajax 안에 contentType 지정
+2. 보내는 쪽, 받는 쪽에 Encoding, Decoding 설정 (java.net.URLEncoder.encode(), decode() 메소드)
+3. web.xml(필터), 톰캣 폴너 내의 server.xml(UTF-8)
+4. ...
+
+방법이 여러가지가 있음
+하지만 다 안됐음
+그리고 이런 방법을 하나도 사용하지 않고도
+잘 돌아갔던 수현이의 코드를 문제가 나는 댓글 UPDATE 부분에 복사했더니
+잘 됐음 ^오^)b
